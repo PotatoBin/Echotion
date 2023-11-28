@@ -1,11 +1,9 @@
 from PIL import Image, ImageDraw, ImageFont
-from PySide6.QtCore import QSettings
 from PIL.ImageQt import ImageQt
 from PySide6.QtGui import QPixmap
 
-settings = QSettings("setting/config.ini", QSettings.IniFormat)
-width = settings.value("window_size", defaultValue=1080, type=int)
-height = width//4
+width = 1080
+height = 256
 font_size = height//2
 
 def fear(sentence) :

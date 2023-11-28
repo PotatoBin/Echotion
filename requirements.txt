@@ -1,2 +1,2 @@
-pillow
-pyside6
+Pillow
+PySide6
