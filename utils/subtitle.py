@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
-from PIL.ImageQt import ImageQt
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import QSettings
+import datetime
+settings = QSettings("setting/config.ini", QSettings.IniFormat)
 
 width = 1080
 height = 256
@@ -59,5 +60,8 @@ emotion = [fear, angry, sadness, neutral, surprise, happiness, hate]
 
 def generate_subtitle(emotion_type, text):
     img = emotion[emotion_type](text)
-    image_qt = ImageQt(img)
-    return QPixmap.fromImage(image_qt)
+    image_save_path = settings.value("image_save_path", defaultValue="subtitle_history")
+    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    save_path = f"{image_save_path}/{current_datetime}_{emotion_type}.png"
+    img.save(save_path)
+    return

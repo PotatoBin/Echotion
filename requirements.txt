@@ -1,2 +1,3 @@
-Pillow
-PySide6
+pillow
+pyside6
+pytorch
