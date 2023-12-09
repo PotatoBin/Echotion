@@ -13,6 +13,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Echotion")
         self.setWindowIcon(QIcon("resources/icons/Echotion1.png"))
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
         self.old_pos = None
 
         menubar = self.menuBar()
@@ -41,7 +42,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_image_periodically)
-        self.timer.start(5000)
+        self.timer.start(1000)
 
     def update_image_periodically(self):
         self.settings = QSettings("setting/config.ini", QSettings.IniFormat)

@@ -1,8 +1,15 @@
 from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton, QVBoxLayout, QHBoxLayout,QWidget
 from PySide6.QtCore import  Qt
 from PySide6.QtGui import QIcon, QAction
+
 from gui.preference_window import PreferenceDialog
 from gui.information_window import InformationDialog
+
+from utils.audio_streaming import stream_audio
+from utils.audio_recognition import recognize_audio
+from utils.emotion_classification import classify_emotion
+from utils.subtitle import generate_subtitle
+
 
 class ControlWindow(QMainWindow):
     def __init__(self):
@@ -58,7 +65,6 @@ class ControlWindow(QMainWindow):
         if self.microphone_on:
             self.microphone_button.setText("Stop")
             self.microphone_button.setStyleSheet("background-color: #FCECDB; color: black;")
-            #start streaming
         else:
             self.microphone_button.setText("Start")
             self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
@@ -78,3 +84,8 @@ class ControlWindow(QMainWindow):
         if event.button() == Qt.LeftButton:
             self.old_pos = None
 
+    def audio_to_subtitle ():
+        stream_audio()
+        text = recognize_audio()
+        emotion_type = classify_emotion(text)
+        generate_subtitle(emotion_type ,text)

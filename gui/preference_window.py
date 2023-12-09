@@ -62,7 +62,6 @@ class PreferenceDialog(QDialog):
         color_dialog = QColorDialog(self)
         color = color_dialog.getColor()
         if color.isValid():
-            # Set the background color of the button and save the color code
             sender_button = self.sender()
             sender_button.setStyleSheet(f"background-color: {color.name()};")
             self.settings.setValue("selected_color", color.name())
