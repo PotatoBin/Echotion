@@ -14,6 +14,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("resources/icons/Echotion1.png"))
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+
         self.old_pos = None
 
         menubar = self.menuBar()

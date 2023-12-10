@@ -1,7 +1,6 @@
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog, QWidget, QColorDialog
-)
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog
 from PySide6.QtCore import QSettings
+import os
 
 class PreferenceDialog(QDialog):
     def __init__(self, parent=None):
@@ -24,18 +23,12 @@ class PreferenceDialog(QDialog):
 
         main_layout.addLayout(setting1)
 
-        setting2 = QHBoxLayout()
-        color_label = QLabel("Select Color: ")
-        setting2.addWidget(color_label)
+        # Create a Delete Cache button
+        delete_cache_button = QPushButton("Delete Cache")
+        delete_cache_button.clicked.connect(self.delete_cache)
+        delete_cache_button.setStyleSheet("background-color: #FCECDB; color: black;")
+        main_layout.addWidget(delete_cache_button)
 
-        color_button = QPushButton("Pick Color")
-        color_button.setStyleSheet("background-color: #FFFFFF")  # Set default color
-        color_button.clicked.connect(self.set_color)
-        setting2.addWidget(color_button)
-
-        main_layout.addLayout(setting2)
-        main_layout.addWidget(QWidget(), 1)
-        
         button_layout = QHBoxLayout()
         close_button = QPushButton("Close")
         close_button.clicked.connect(self.close)
@@ -58,13 +51,12 @@ class PreferenceDialog(QDialog):
         if directory:
             self.settings.setValue("image_save_path", directory)
 
-    def set_color(self):
-        color_dialog = QColorDialog(self)
-        color = color_dialog.getColor()
-        if color.isValid():
-            sender_button = self.sender()
-            sender_button.setStyleSheet(f"background-color: {color.name()};")
-            self.settings.setValue("selected_color", color.name())
+    def delete_cache(self):
+        folder_path = self.settings.value("image_save_path")
+        if folder_path:
+            for file in os.listdir(folder_path):
+                if file.endswith(".png") and file != "dummy.png":
+                    os.remove(os.path.join(folder_path, file))
 
     def save_settings(self):
         self.settings.sync()

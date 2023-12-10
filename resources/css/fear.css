@@ -20,14 +20,15 @@ body, html {
 }
 
 .styled-text {
-    font-size: 86px;
-    font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
-    padding: 10px;
-    color: transparent;
-    -webkit-text-stroke: 2px #08070d;
-    background-image: linear-gradient(rgb(167, 167, 167), rgb(255, 255, 255));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 86px;
+  font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
+  padding: 10px;
+  color: transparent;
+  -webkit-text-stroke: 1px white;
+  background-image: linear-gradient(rgb(111, 111, 111), rgb(159, 159, 159));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
 
 

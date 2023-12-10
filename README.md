@@ -13,11 +13,24 @@ Echotion is an open-source project that aims to build a system capable of conver
 - **Implementation**: We are setting up an emotion analysis system by fine-tuning a multi-emotion classification model using a Korean emotion-specific conversation dataset. We chose KoBERT, a model that has trained the original BERT model, specialized in Korean due to its superior understanding of Korean text data. We plan to design an emotion analysis model that is divided into 7 stages, compared to the existing 3 stages (positive, negative, neutral).
 
 ### 3. Real-time Subtitle Generation and Display
-- **Libraries**: [Pillow](https://pypi.org/project/Pillow/), [PySide6](https://pypi.org/project/PySide6/)
-- **Implementation**: We are developing an interface that converts the results from the STT and emotion analysis components into real-time subtitles. We need a function to visualize text as an image, which is why we chose to use an image processing library such as Pillow. With Pillow, we can apply various fonts, colors, and sizes to the text. Users will be able to customize font types, text sizes, borders, and use shape elements depending on the situation. We plan to implement preset subtitle styles for each classified emotion.
+- **Libraries**: [Html2image](https://github.com/vgalin/html2image), [PySide6](https://pypi.org/project/PySide6/)
+- **Implementation**: We're currently building an interface that converts outcomes from both the Speech-to-Text (STT) and emotion analysis modules into real-time subtitles. To convert text into visual representations, we've opted for the html2image library. Leveraging html2image, we can dynamically generate images from text, allowing for various fonts, colors, sizes, and other visual modifications. This versatility empowers users to customize font types, sizes, borders, and even incorporate shape elements based on contextual needs. Our roadmap includes pre-designed subtitle styles tailored to distinct emotional classifications.
 
 ## Installation & Usage
-(Work in progress)
 
-## Project Timeline & Roadmap
-Echotion project is currently in the planning phase. Our future plans include improving the accuracy of Korean speech recognition, enhancing the precision of emotion analysis, creating suitable subtitle styles for each emotion, and developing a user-friendly GUI.
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/PotatoBin/Echotion
+    cd your_repository
+    ```
+
+2. Install required dependencies using pip:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Pre-trained Models
+
+Please note that pre-trained models are not distributed with this repository. You will need to acquire and place any necessary pre-trained models in the designated directories as per the application's requirements before using the system. If needed, refer to the documentation or respective model repositories to obtain the required pre-trained models.

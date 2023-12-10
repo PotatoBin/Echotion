@@ -5,10 +5,10 @@ from PySide6.QtGui import QIcon, QAction
 from gui.preference_window import PreferenceDialog
 from gui.information_window import InformationDialog
 
-from utils.audio_streaming import stream_audio
+#from utils.audio_streaming import stream_audio
 from utils.audio_recognition import recognize_audio
 from utils.emotion_classification import classify_emotion
-from utils.subtitle import generate_subtitle
+from utils.subtitle_generation import generate_subtitle
 
 
 class ControlWindow(QMainWindow):
@@ -65,6 +65,7 @@ class ControlWindow(QMainWindow):
         if self.microphone_on:
             self.microphone_button.setText("Stop")
             self.microphone_button.setStyleSheet("background-color: #FCECDB; color: black;")
+            generate_subtitle(6,"싫어요")
         else:
             self.microphone_button.setText("Start")
             self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
@@ -85,7 +86,7 @@ class ControlWindow(QMainWindow):
             self.old_pos = None
 
     def audio_to_subtitle ():
-        stream_audio()
+        #stream_audio()
         text = recognize_audio()
         emotion_type = classify_emotion(text)
         generate_subtitle(emotion_type ,text)
