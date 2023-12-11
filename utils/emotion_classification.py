@@ -49,7 +49,7 @@ class BERTClassifier(nn.Module):
 
 # 모델 로드
 model = BERTClassifier(BertModel.from_pretrained('skt/kobert-base-v1'), dr_rate=0.5)
-model.load_state_dict(torch.load("C:/Users/yudam/Downloads/kobert_model (1).pt"), strict=False)
+model.load_state_dict(torch.load(""utils/kobert_model_1.pt""), strict=False)
 model.eval()
 
 # 토크나이저 로드
