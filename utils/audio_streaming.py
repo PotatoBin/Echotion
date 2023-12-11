@@ -6,7 +6,7 @@ def stream_audio(output_file_path, record_seconds=5):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1 if sys.platform == 'darwin' else 2
-    RATE = 22050 // 4
+    RATE = 22050 // 3
 
     with wave.open(output_file_path, 'wb') as wf:
         p = pyaudio.PyAudio()

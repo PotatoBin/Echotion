@@ -50,7 +50,6 @@ class BERTClassifier(nn.Module):
 
 # 모델 로드
 model = BERTClassifier(BertModel.from_pretrained('skt/kobert-base-v1'), dr_rate=0.5)
-
 settings = QSettings("setting/config.ini", QSettings.IniFormat)
 pt_file_path = settings.value("pt_file_path")
 model.load_state_dict(torch.load(pt_file_path), strict=False)

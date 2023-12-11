@@ -6,6 +6,7 @@ from PySide6.QtCore import QSettings
 def recognize_audio(audio_file_path):
     settings = QSettings("setting/config.ini", QSettings.IniFormat)
     openApiURL = "http://aiopen.etri.re.kr:8000/WiseASR/Recognition"
+    accessKey = 'your API key'
     accessKey = settings.value("api_key", defaultValue="your_api_key_here")
     languageCode = "korean"
 

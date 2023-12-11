@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton, QVBoxLayout, QHBoxLayout,QWidget
-from PySide6.QtCore import  Qt, QTimer, QSettings
-from PySide6.QtGui import QIcon, QAction
+from PySide6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QHBoxLayout,QWidget
+from PySide6.QtCore import  QTimer, QSettings
+from PySide6.QtGui import QIcon
 
 from gui.preference_window import PreferenceDialog
 from gui.information_window import InformationDialog
@@ -15,28 +15,13 @@ class ControlWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Echotion")
+        self.setWindowTitle("Control Panel")
         self.setWindowIcon(QIcon("resources/icons/Echotion1.png"))
-        
-        menubar = self.menuBar()
-        echotion_menu = menubar.addMenu("Control Panel")
-
-        action_info = QAction("About Echotion", self)
-        action_info.triggered.connect(self.show_information)
-        echotion_menu.addAction(action_info)
-        action_pref = QAction("Preference", self)
-        action_pref.triggered.connect(self.show_preference)
-        echotion_menu.addAction(action_pref)
-        echotion_menu.addSeparator()
-        action_exit = QAction("Quit", self)
-        action_exit.triggered.connect(QApplication.instance().quit)
-        echotion_menu.addAction(action_exit)
-        self.menuBar().setVisible(True)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.audio_to_subtitle)
         self.settings = QSettings("setting/config.ini", QSettings.IniFormat)
-        self.interval = self.settings.value("recording_interval", defaultValue=5) * 1000
+        self.interval = int(self.settings.value("recording_interval", defaultValue=5))
         self.microphone_on = False
         self.microphone_button = QPushButton("Start", self)
         self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
@@ -55,45 +40,24 @@ class ControlWindow(QMainWindow):
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
-    def show_information(self):
-        dialog = InformationDialog(self)
-        dialog.exec_()
-
-    def show_preference(self):
-        dialog = PreferenceDialog(self)
-        dialog.exec_()
-
-    def mousePressEvent(self, event):
-        if event.buttons() == Qt.LeftButton:
-            self.old_pos = event.globalPos()
-
-    def mouseMoveEvent(self, event):
-        if self.old_pos:
-            delta = event.globalPos() - self.old_pos
-            self.move(self.pos() + delta)
-            self.old_pos = event.globalPos()
-
-    def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.old_pos = None
-
     def audio_to_subtitle (self):
-        audio_file_path = "stt_output.wav"
-        stream_audio(audio_file_path, self.interval)
         self.microphone_button.setText("Listening...")
         self.microphone_button.setStyleSheet("background-color: #91CF1E; color: black;")
-        text = recognize_audio(audio_file_path)
+        audio_file_path = "stt_output.wav"
+        stream_audio(audio_file_path, self.interval)
         self.microphone_button.setText("Loading...")
         self.microphone_button.setStyleSheet("background-color: #FDCF1E; color: black;")
+        text = recognize_audio(audio_file_path)
         emotion_type = classify_emotion(text)
         generate_subtitle(emotion_type ,text)
+        self.microphone_button.setText("Start")
+        self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
         
     def toggle_microphone(self):
         self.microphone_on = not self.microphone_on
         if self.microphone_on:
-            self.timer.start(self.interval)
+            self.audio_to_subtitle()
         else:
             self.microphone_button.setText("Start")
             self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
-            self.timer.stop() 
     
