@@ -2,10 +2,10 @@ from html2image import Html2Image
 from PySide6.QtCore import QSettings
 import datetime
 
-emotion = ["fear", "angry", "sad", "neutral", "surprise", "happy", "hate"]
+emotion = ["fear", "surprise", "angry", "sad", "neutral", "happy", "hate"]
 
 def read_css_file(file_path):
-    with open(file_path) as f:
+    with open(file_path, encoding='utf-8') as f:
         css_file = f.read()
     return css_file
 
@@ -35,7 +35,7 @@ def generate_subtitle(emotion_type, text):
     save_history(f"{current_datetime}:{text}:{emotion[emotion_type]}")
 
 def save_history(new_text):
-    with open("subtitle_history/history.txt", 'r+') as file:
+    with open("subtitle_history/history.txt", 'r+', encoding='utf-8') as file:
         content = file.read()
         file.seek(0, 0)
         file.write(new_text.rstrip('\r\n') + '\n' + content)

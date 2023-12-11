@@ -4,7 +4,7 @@ import base64
 
 def recognize_audio(audio_file_path):
     openApiURL = "http://aiopen.etri.re.kr:8000/WiseASR/Recognition"
-    accessKey = "your accessKey"
+    accessKey = "a18db364-eccc-40ae-9a57-0fbf6959eee6"
     languageCode = "korean"
 
     with open(audio_file_path, "rb") as file:

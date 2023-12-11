@@ -5,7 +5,7 @@ from PySide6.QtGui import QIcon, QAction
 from gui.preference_window import PreferenceDialog
 from gui.information_window import InformationDialog
 
-#from utils.audio_streaming import stream_audio
+from utils.audio_streaming import stream_audio
 from utils.audio_recognition import recognize_audio
 from utils.emotion_classification import classify_emotion
 from utils.subtitle_generation import generate_subtitle
@@ -60,17 +60,6 @@ class ControlWindow(QMainWindow):
         dialog = PreferenceDialog(self)
         dialog.exec_()
 
-    def toggle_microphone(self):
-        self.microphone_on = not self.microphone_on
-        if self.microphone_on:
-            self.microphone_button.setText("Stop")
-            self.microphone_button.setStyleSheet("background-color: #FCECDB; color: black;")
-            generate_subtitle(6,"싫어요")
-        else:
-            self.microphone_button.setText("Start")
-            self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
-            #stop
-    
     def mousePressEvent(self, event):
         if event.buttons() == Qt.LeftButton:
             self.old_pos = event.globalPos()
@@ -85,8 +74,21 @@ class ControlWindow(QMainWindow):
         if event.button() == Qt.LeftButton:
             self.old_pos = None
 
-    def audio_to_subtitle ():
-        #stream_audio()
-        text = recognize_audio()
+    def audio_to_subtitle (self):
+        audio_file_path = "stt_output.wav"
+        stream_audio(audio_file_path)
+        text = recognize_audio(audio_file_path)
         emotion_type = classify_emotion(text)
         generate_subtitle(emotion_type ,text)
+        
+    def toggle_microphone(self):
+        self.microphone_on = not self.microphone_on
+        if self.microphone_on:
+            self.microphone_button.setText("Stop")
+            self.microphone_button.setStyleSheet("background-color: #FCECDB; color: black;")
+            self.audio_to_subtitle()
+        else:
+            self.microphone_button.setText("Start")
+            self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
+            #stop
+    
