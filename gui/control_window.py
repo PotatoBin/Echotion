@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton, QVBoxLayout, QHBoxLayout,QWidget
-from PySide6.QtCore import  Qt
+from PySide6.QtCore import  Qt, QTimer, QSettings
 from PySide6.QtGui import QIcon, QAction
 
 from gui.preference_window import PreferenceDialog
@@ -17,10 +17,9 @@ class ControlWindow(QMainWindow):
 
         self.setWindowTitle("Echotion")
         self.setWindowIcon(QIcon("resources/icons/Echotion1.png"))
-        self.setWindowFlag(Qt.FramelessWindowHint)
         
         menubar = self.menuBar()
-        echotion_menu = menubar.addMenu("Echotion")
+        echotion_menu = menubar.addMenu("Control Panel")
 
         action_info = QAction("About Echotion", self)
         action_info.triggered.connect(self.show_information)
@@ -34,6 +33,10 @@ class ControlWindow(QMainWindow):
         echotion_menu.addAction(action_exit)
         self.menuBar().setVisible(True)
 
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.audio_to_subtitle)
+        self.settings = QSettings("setting/config.ini", QSettings.IniFormat)
+        self.interval = self.settings.value("recording_interval", defaultValue=5) * 1000
         self.microphone_on = False
         self.microphone_button = QPushButton("Start", self)
         self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
@@ -76,19 +79,21 @@ class ControlWindow(QMainWindow):
 
     def audio_to_subtitle (self):
         audio_file_path = "stt_output.wav"
-        stream_audio(audio_file_path)
+        stream_audio(audio_file_path, self.interval)
+        self.microphone_button.setText("Listening...")
+        self.microphone_button.setStyleSheet("background-color: #91CF1E; color: black;")
         text = recognize_audio(audio_file_path)
+        self.microphone_button.setText("Loading...")
+        self.microphone_button.setStyleSheet("background-color: #FDCF1E; color: black;")
         emotion_type = classify_emotion(text)
         generate_subtitle(emotion_type ,text)
         
     def toggle_microphone(self):
         self.microphone_on = not self.microphone_on
         if self.microphone_on:
-            self.microphone_button.setText("Stop")
-            self.microphone_button.setStyleSheet("background-color: #FCECDB; color: black;")
-            self.audio_to_subtitle()
+            self.timer.start(self.interval)
         else:
             self.microphone_button.setText("Start")
             self.microphone_button.setStyleSheet("background-color: #FFB533; color: black;")
-            #stop
+            self.timer.stop() 
     

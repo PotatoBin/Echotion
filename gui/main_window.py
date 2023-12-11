@@ -1,7 +1,7 @@
 import os
 from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QWidget
 from PySide6.QtGui import QIcon, QAction, QPixmap
-from PySide6.QtCore import  Qt, QTimer, QSettings
+from PySide6.QtCore import QTimer, QSettings
 from gui.preference_window import PreferenceDialog
 from gui.information_window import InformationDialog
 
@@ -12,10 +12,9 @@ class MainWindow(QMainWindow):
     
         self.setWindowTitle("Echotion")
         self.setWindowIcon(QIcon("resources/icons/Echotion1.png"))
-        self.setWindowFlag(Qt.FramelessWindowHint)
-        self.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
-
-        self.old_pos = None
+        self.settings = QSettings("setting/config.ini", QSettings.IniFormat)
+        background_color = self.settings.value("background_color", defaultValue="#00ff31")
+        self.setStyleSheet(f"background-color: {background_color};")
 
         menubar = self.menuBar()
         echotion_menu = menubar.addMenu("Echotion")
@@ -43,7 +42,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_image_periodically)
-        self.timer.start(1000)
+        self.timer.start(500)
 
     def update_image_periodically(self):
         self.settings = QSettings("setting/config.ini", QSettings.IniFormat)
@@ -72,17 +71,3 @@ class MainWindow(QMainWindow):
     def update_image(self, pixmap) :
         if self.label:
             self.label.setPixmap(pixmap)
-    
-    def mousePressEvent(self, event):
-        if event.buttons() == Qt.LeftButton:
-            self.old_pos = event.globalPos()
-
-    def mouseMoveEvent(self, event):
-        if self.old_pos:
-            delta = event.globalPos() - self.old_pos
-            self.move(self.pos() + delta)
-            self.old_pos = event.globalPos()
-
-    def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.old_pos = None

@@ -11,7 +11,7 @@ def read_css_file(file_path):
 
 def generate_subtitle(emotion_type, text):
     settings = QSettings('setting/config.ini', QSettings.IniFormat)
-    hti = Html2Image(size=(1080, 256))
+    hti = Html2Image(size=(540, 128))
     output_path = settings.value('image_save_path')
     hti.output_path = output_path
     current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")

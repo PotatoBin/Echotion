@@ -3,6 +3,7 @@ import numpy as np
 from transformers import BertModel
 from utils.kobert_tokenizer import KoBERTTokenizer
 from torch import nn
+from PySide6.QtCore import QSettings
 
 # Softmax 함수 정의
 def softmax(vals, idx):
@@ -49,7 +50,10 @@ class BERTClassifier(nn.Module):
 
 # 모델 로드
 model = BERTClassifier(BertModel.from_pretrained('skt/kobert-base-v1'), dr_rate=0.5)
-model.load_state_dict(torch.load(""utils/kobert_model_1.pt""), strict=False)
+
+settings = QSettings("setting/config.ini", QSettings.IniFormat)
+pt_file_path = settings.value("pt_file_path")
+model.load_state_dict(torch.load(pt_file_path), strict=False)
 model.eval()
 
 # 토크나이저 로드
