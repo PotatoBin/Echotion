@@ -31,6 +31,25 @@ Echotion is an open-source project that aims to build a system capable of conver
     pip install -r requirements.txt
     ```
 
+3. Run the application:
+
+    After installing the dependencies, execute the main Python script:
+
+    ```bash
+    python main.py
+    ```
+
+4. Setting API Key and .pt File:
+
+    - Launch the application and navigate to the Preferences section.
+    - Enter your API Key in the designated field. [here](https://aiopen.etri.re.kr/)
+    - Choose the .pt file for model connection.
+
+    The API Key is essential for certain features of the application. The .pt file is crucial for connecting to the model used in the application.
+
+It's recommended to run the application in a virtual environment to avoid potential conflicts with other Python projects or dependencies.
+
+
 ## Pre-trained Models
 
 Please note that pre-trained models are not distributed with this repository. You will need to acquire and place any necessary pre-trained models in the designated directories as per the application's requirements before using the system. If needed, refer to the documentation or respective model repositories to obtain the required pre-trained models.
